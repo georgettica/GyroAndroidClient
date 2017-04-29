@@ -11,9 +11,11 @@ import android.opengl.Matrix;
 import android.widget.TextView;
 
 import java.net.UnknownHostException;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-
+    Calendar c = Calendar.getInstance();
+    int nowInMilliseconds;
     private SensorManager mSensorManager;
     private Sensor mAccelerationSensor;
     private Sensor mLinearAccelerationSensor;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private UdpClient udpClient;
     private TextView mArray[];
+    private int delayTime = 20;
+    private int lastSend = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +105,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             udpClient.Message = new float[3];
             System.arraycopy(trueAccelerationVector,0,udpClient.Message,0,3);
-            udpClient.SendMessage();
+            //send twenty times Per Second
+            nowInMilliseconds = c.get(Calendar.MILLISECOND);
+            if(nowInMilliseconds - lastSend >= delayTime ) {
+                lastSend = nowInMilliseconds;
+                udpClient.SendMessage();
+            }
 
 
         }

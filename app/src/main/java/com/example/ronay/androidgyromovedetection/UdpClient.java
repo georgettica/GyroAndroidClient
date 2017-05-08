@@ -15,13 +15,17 @@ import android.os.Build;
  */
 public class UdpClient {
 
-    private static final int ServerPort = 15170;
-    private AsyncTask<Void, Void, Void> async_client;
     public float[] Message;
+
+    private static final int ServerPort = 15170;
     private InetAddress BroadcastAddress;
+    private AsyncTask<Void, Void, Void> async_client;
 
     public UdpClient() throws UnknownHostException {
-        BroadcastAddress = InetAddress.getByName("192.168.14.133");
+        BroadcastAddress = InetAddress.getByName("192.168.14.148");
+    }
+    public void updateIp(String ip) throws  UnknownHostException    {
+        BroadcastAddress = InetAddress.getByName(ip);
     }
 
     @SuppressLint("NewApi")
@@ -35,8 +39,8 @@ public class UdpClient {
                     ds = new DatagramSocket();
                     DatagramPacket dp;
                     ByteBuffer bf = ByteBuffer.allocate(Message.length* 4);
-                    for(int i=0; i<Message.length;i++)
-                        bf.putFloat(i*4,Message[i]);
+                    for(int i=0; i< Message.length; i++)
+                        bf.putFloat(Message[i]);
 
                     dp = new DatagramPacket(bf.array(), bf.array().length,  BroadcastAddress, ServerPort);
                     ds.setBroadcast(false);

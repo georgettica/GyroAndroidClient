@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AndroidGyroMoveDetection.iml" filepath="$PROJECT_DIR$/AndroidGyroMoveDetection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GyroAndroidClient.iml" filepath="$PROJECT_DIR$/GyroAndroidClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

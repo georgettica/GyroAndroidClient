@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             lowPass(prevVector, smoothedVector);
             System.arraycopy(smoothedVector, 0, udpClient.Message, 0, 3);
             System.arraycopy(velocityCalculator.Velocities,0,udpClient.Message,3,3);
+            c = Calendar.getInstance();
+            nowInMilliseconds = c.getTimeInMillis();
 
 
             //send twenty times Per Second
@@ -157,8 +159,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void updateSumsVector(float[] vector) {
         for (int i=0; i<sumsVector.length; i++) {
-            c = Calendar.getInstance();
-            nowInMilliseconds = c.getTimeInMillis();
             long diff = nowInMilliseconds - lastCalculated;
             if(diff == 0){
                 diff = 1;

@@ -9,9 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ronay.androidgyromovedetection.MainActivity">
     <GridLayout
+        android:id="@+id/grid1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:visibility="invisible"
         android:columnCount="3"
         android:rowCount="4">
         <TextView
@@ -90,4 +92,14 @@
         </LinearLayout>
 
     </GridLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="134dp"
+        android:longClickable="true"
+        android:text="Start Game"
+        android:id="@+id/start_game"/>
 </RelativeLayout>

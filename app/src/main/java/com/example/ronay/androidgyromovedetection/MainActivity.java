@@ -8,7 +8,12 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.opengl.Matrix;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView mArray[];
     private EditText ipInput;
     private ToggleButton shouldRun;
+    private Button startGame;
+    private GridLayout grid;
 
     private long delayTime = 20;
 
@@ -82,6 +89,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mArray[5] = (TextView)findViewById(R.id.m6);
         ipInput = (EditText) findViewById(R.id.input_id);
         shouldRun = (ToggleButton)findViewById(R.id.should_run);
+        startGame = (Button)findViewById(R.id.start_game);
+        grid = (GridLayout) findViewById(R.id.grid1);
+
+        startGame.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                udpClient.SendCommand(2);
+            }
+        });
+
+        startGame.setOnLongClickListener(new OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                if (grid.getVisibility() == View.VISIBLE) {
+                    grid.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    grid.setVisibility(View.VISIBLE);
+                }
+                return true;
+            }
+        });
+
+        mSensorManager.registerListener(this,mAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this,mGravitySensor,SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this,mMagneticSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this,mLinearAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
+
     }
     @Override
     public final void onAccuracyChanged(Sensor sensor, int accuracy)
@@ -127,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
                 catch (UnknownHostException e)
                 {
+
                 }
             }
             mArray[0].setText(String.format("V[0] Is :%f", velocityCalculator.Velocities[0]));
@@ -185,19 +225,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mSensorManager.registerListener(this,mAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this,mGravitySensor,SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this,mMagneticSensor,SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this,mLinearAccelerationSensor,SensorManager.SENSOR_DELAY_NORMAL);
-
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         mSensorManager.unregisterListener(this);
     }
 }
